@@ -1,9 +1,13 @@
 import json
-from django.shortcuts import render
-from django.http import HttpResponse
+import requests
+from django.views.generic import View
+from django.shortcuts import redirect, render
+from django.http import HttpResponse, response
 from .models import Orders, Product,Contact,orderUpdate
 from math import ceil
 from django.views.decorators.csrf import csrf_exempt
+
+import xml.etree.ElementTree as Et
 
 # Create your views here.
 def index(request):
@@ -94,11 +98,38 @@ def checkout(request):
         thank = True
 
         id = order.order_id
-        return render(request,'shop/esewa.html')
+        valuesForPayment = {'id':id,'amount':int(amount)}
+        print(valuesForPayment)
+        return render(request,'shop/esewa.html',valuesForPayment)
     return render(request,'shop/checkout.html')
 
 
-# @csrf_exempt
-def handlerequest(request):
-    # Esewa Payment Integration
-    pass
+# # @csrf_exempt
+# def handlerequest(request):
+#     # Esewa Payment Integration
+#     pass
+
+
+class EsewaVerifyView(View):
+    def get(self,request,*args, **kwargs):
+        oid = request.GET.get("oid")
+        amount = request.GET.get("amt")
+        refid = request.GET.get("refId")
+        url ="https://uat.esewa.com.np/epay/transrec"
+        d = {
+            'amt': amount,
+            'scd': 'EPAYTEST',
+            'rid': refid,
+            'pid':oid,
+        }
+        resp = requests.post(url, d)
+
+        root = Et.fromstring(resp.content)
+        status = root[0].text.strip()
+        if status == "Success":
+            return redirect('/')
+        else:
+            return redirect('/checkout')
+
+def errorPage(request):
+    return render(request,'shop/errorPage.html')

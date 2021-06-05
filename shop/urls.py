@@ -11,7 +11,9 @@ urlpatterns = [
  path('search',views.search,name="Search"),
  path("checkout",views.checkout,name='Checkout'),
 #  path('esewa-request',views.EsewaRequestView,name="esewarequest")
- path('handlerequest/',views.handlerequest,name='handlerequest')
+#  path('handlerequest/',views.handlerequest,name='handlerequest'),
+ path('esewaverify',views.EsewaVerifyView.as_view(),name='esewaverify'),
+ path('errorPage',views.errorPage,name='errorPage'),
 
 
 ]

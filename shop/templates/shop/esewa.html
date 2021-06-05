@@ -7,22 +7,30 @@
     <title>esewa</title>
 </head>
 <body>
-    <h1>Redirecting you To the Merchant</h1>
-    <form action="https://uat.esewa.com.np/epay/main" method="POST">
-    <input value="100" name="tAmt" type="hidden">
-    <input value="90" name="amt" type="hidden">
-    <input value="5" name="txAmt" type="hidden">
-    <input value="2" name="psc" type="hidden">
-    <input value="3" name="pdc" type="hidden">
+    <h1>{{ id }}</h1>
+     <h1>{{amount}}</h1>
+     <h1>Redirecting to the esewa Website</h1>
+
+    <form action="https://uat.esewa.com.np/epay/main" method="POST" id='esewaform'>
+    <input value="{{amount}}" name="tAmt" type="hidden">
+    <input value="{{amount}}" name="amt" type="hidden">
+    <input value="0" name="txAmt" type="hidden">
+    <input value="0" name="psc" type="hidden">
+    <input value="0" name="pdc" type="hidden">
     <input value="EPAYTEST" name="scd" type="hidden">
-    <input value="MobilePhone" name="pid" type="hidden">
-    <input value="http://127.0.0.1:8000" type="hidden" name="su">
-    <input value="http://127.0.0.1:8000/about" type="hidden" name="fu">
+    <input value="{{id}}" name="pid" type="hidden">
+    <input value="http://127.0.0.1:8000/esewaverify" type="hidden" name="su">
+    <input value="http://127.0.0.1:8000/errorPage" type="hidden" name="fu">
     <input value="Submit" type="submit">
     </form>
 
-    </form>
+<script>
+    setTimeout(function(){
+document.getElementById('esewaform').submit();
+    },500);
+</script>
 
 
 </body>
 </html>
+
