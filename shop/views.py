@@ -5,7 +5,8 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse, response
 from .models import Orders, Product,Contact,orderUpdate
 from math import ceil
-from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.forms import UserCreationForm
+from .forms import CreateUserForm
 
 import xml.etree.ElementTree as Et
 
@@ -171,3 +172,22 @@ class EsewaVerifyView(View):
 
 def errorPage(request):
     return render(request,'shop/errorPage.html')
+
+
+
+
+# For Authenticating and Creating users using Django Inbuild Auth Method That
+#  handles duplicate usernames and passwords
+
+def registerPage(request):
+    # form = UserCreationForm()
+    form = CreateUserForm()
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+
+    context = {'form':form}
+    return render(request,'shop/registerUser.html',context)
+
