@@ -1,4 +1,5 @@
 import json
+from django.contrib.messages.api import success
 import requests
 from django.views.generic import View
 from django.shortcuts import redirect, render
@@ -9,6 +10,8 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import CreateUserForm
 
 import xml.etree.ElementTree as Et
+
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -186,8 +189,14 @@ def registerPage(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request,'Account Created for: '+user)
+            return redirect('login')
 
 
     context = {'form':form}
     return render(request,'shop/registerUser.html',context)
 
+def login(request):
+    context = {}
+    return render(request,'shop/login.html',context)

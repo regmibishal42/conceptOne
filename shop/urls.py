@@ -15,6 +15,7 @@ urlpatterns = [
  path('esewaverify',views.EsewaVerifyView.as_view(),name='esewaverify'),
  path('errorPage',views.errorPage,name='errorPage'),
  path('registerPage',views.registerPage,name='registerPage'),
+ path('login',views.login,name="login")
 
 
 ]
