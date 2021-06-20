@@ -20,10 +20,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/about"></a>
+          <a class="nav-link active" aria-current="page" href="/about">Sales</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/addproduct">AddProduct</a>
+          <a class="nav-link active" aria-current="page" href="/viewProducts">Products</a>
         </li>
       </ul>
       <a class="nav-link active" aria-current="page" href="{% url 'logout' %}" style="color: cornsilk;">Logout</a>
@@ -35,7 +35,9 @@
 {% endblock body %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-{% block script %}{% endblock script %}
+{% block script %}
+
+{% endblock script %}
 
   </body>
 </html>

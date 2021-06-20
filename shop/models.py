@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.base import ModelState
+from django.utils.timezone import now
 
 # Create your models here.
 
@@ -37,6 +38,7 @@ class Orders(models.Model):
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     phone = models.CharField(max_length=13)
+    orderDate = models.DateField(default=now)
     orderStatus = models.CharField(max_length=50,default="Order Placed")
     paymentMethod = models.CharField(max_length=20,default="Esewa")
     paymentStatus = models.BooleanField(default=False)

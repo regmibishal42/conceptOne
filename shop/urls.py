@@ -17,7 +17,10 @@ urlpatterns = [
  path('registerPage',views.registerPage,name='registerPage'),
  path('login',views.loginPage,name="login"),
  path('logout',views.logoutUser,name='logout'),
- path('home',views.home,name='home')
+ path('home',views.home,name='home'),
+ path('viewProducts',views.viewProducts,name="viewProducts"),
+ path('addProducts',views.addProducts,name='addProducts'),
+
 
 
 ]

@@ -7,7 +7,7 @@
 {% include 'admin/status.html' %}
 
 <div class="row">
-	<div class="col-md-5">
+	{% comment %} <div class="col-md-5">
 		<h5>CUSTOMERS:</h5>
 		<hr>
 		<div class="card card-body">
@@ -21,21 +21,32 @@
 
 			</table>
 		</div>
-	</div>
+	</div> {% endcomment %}
 
-	<div class="col-md-7">
-		<h5>LAST 5 ORDERS</h5>
+	<div class="col-md-12">
+		<h5>ORDERS</h5>
 		<hr>
 		<div class="card card-body">
 			<a class="btn btn-primary  btn-sm btn-block" href="">Create Order</a>
 			<table class="table table-sm">
 				<tr>
-					<th>Product</th>
-					<th>Date Orderd</th>
+					<th>Customer</th>
+					<th>Product Details</th>
+					<th>Date Ordered</th>
 					<th>Status</th>
+					<th>PaymentStatus</th>
 					<th>Update</th>
 					<th>Remove</th>
 				</tr>
+				{% for order in orders %}
+				<tr>
+					<td>{{order.name}}</td>
+					<td>{{ order.items_json }}</td>
+					<td>{{order.orderDate}}</td>
+					<td>{{order.orderStatus}}</td>
+					<td>{{order.paymentStatus}}</td>
+				</tr>
+				{% endfor %}
 		
 			</table>
 		</div>
@@ -43,4 +54,12 @@
 
 </div>
 
+
 {% endblock body %}
+
+{% block script %}
+<script>
+
+
+</script>
+{% endblock script %}

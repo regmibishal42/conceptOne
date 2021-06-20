@@ -1,5 +1,6 @@
 import json
 from django.contrib.messages.api import success
+from django.db.models.fields import NullBooleanField
 import requests
 from django.views.generic import View
 from django.shortcuts import redirect, render
@@ -224,5 +225,21 @@ def logoutUser(request):
 
 @login_required(login_url='login')
 def home(request):
-    context = {}
+    totalOrders = len(Orders.objects.filter(orderStatus='Order Placed'))
+    deliveredOrders = len(Orders.objects.filter(orderStatus='Delivered'))
+    pendingOrders = len(Orders.objects.filter(orderStatus="Pending"))
+    orders = Orders.objects.all()
+
+    print(orders)
+    context = {'totalOrders':totalOrders,'deliveredOrders':deliveredOrders,'pendingOrders':pendingOrders,'orders':orders}
     return render(request,'admin/dashboard.html',context)
+
+@login_required
+def viewProducts(request):
+    allProducts = Product.objects.all()
+    context = {'products':allProducts}
+    return render(request,'admin/viewProducts.html',context)
+
+@login_required
+def addProducts(request):
+    return render(request,'admin/addProducts.html')
