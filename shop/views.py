@@ -225,4 +225,4 @@ def logoutUser(request):
 @login_required(login_url='login')
 def home(request):
     context = {}
-    return render(request,'admin/base1.html',context)
+    return render(request,'admin/dashboard.html',context)

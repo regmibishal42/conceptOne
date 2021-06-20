@@ -37,6 +37,9 @@ class Orders(models.Model):
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     phone = models.CharField(max_length=13)
+    orderStatus = models.CharField(max_length=50,default="Order Placed")
+    paymentMethod = models.CharField(max_length=20,default="Esewa")
+    paymentStatus = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
