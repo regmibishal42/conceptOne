@@ -1,0 +1,70 @@
+{% extends 'admin/base1.html' %}
+
+{% block title %}update Order{% endblock title %}
+
+{% block body %}
+
+<br>
+<div class="row g-0">
+  <div class="col-sm-12 col-md-12"><b><h2>Customer Details:<h2></b></div>
+</div>
+<hr>
+<ul class="list-group list-group-flush">
+  <li class="list-group-item">Customer Name: {{orders.name}}</li>
+  <li class="list-group-item">Customer Id: {{orders.order_id}}</li>
+  <li class="list-group-item">Email: {{orders.email}}</li>
+  <li class="list-group-item">phone: {{orders.phone}}</li>
+  <li class="list-group-item">Address: {{orders.address}}</li>
+</ul>
+<br>
+<hr>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Product Id</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for key,value in orderedItems.items %}
+    <tr>
+      <th scope="row">1</th>
+      <td>{{key}}</td>
+      <td>{{value.1}}</td>
+      <td>{{value.0}}</td>
+      <td>{{value.2}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<br>
+<div class="row g-0">
+  <div class="col-sm-12 col-md-12"><b><h2>Update Details:<h2></b></div>
+</div>
+<hr>
+
+<form>
+<div class='form-check'>
+<label for="cars">Delivery Status</label>
+  <select id="delivery" name="delivery">
+    <option value="volvo">Ordered Received</option>
+    <option value="saab">Saab</option>
+    <option value="fiat">Fiat</option>
+  </select>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+  <label class="form-check-label" for="defaultCheck1">
+    Default checkbox
+  </label>
+</div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock body %}
+

@@ -20,6 +20,7 @@ urlpatterns = [
  path('home',views.home,name='home'),
  path('viewProducts',views.viewProducts,name="viewProducts"),
  path('addProducts',views.addProducts,name='addProducts'),
+ path('updateOrder/<int:o_id>',views.updateOrder,name='updateOrder'),
 
 
 

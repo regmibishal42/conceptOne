@@ -1,4 +1,5 @@
 import json
+import simplejson
 from django.contrib.messages.api import success
 from django.db.models.fields import NullBooleanField
 import requests
@@ -243,3 +244,17 @@ def viewProducts(request):
 @login_required
 def addProducts(request):
     return render(request,'admin/addProducts.html')
+
+
+@login_required
+def updateOrder(request,o_id):
+    orders = Orders.objects.get(order_id=o_id)
+    js = json.loads(orders.items_json)
+    orderedItems = dict(js)
+    print(type(orderedItems),js)
+    context ={'orders':orders,'orderedItems':orderedItems}
+    products = {}
+    for item in orderedItems:
+        #products[]
+        print(orderedItems[item][1])
+    return render(request,'admin/orderUpdate.html',context)
