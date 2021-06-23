@@ -6,7 +6,9 @@
 
 <br>
 <div class="row g-0">
-  <div class="col-sm-12 col-md-12"><b><h2>Customer Details:<h2></b></div>
+  <div class="col-sm-12 col-md-12"><b>
+      <h2>Customer Details:<h2>
+    </b></div>
 </div>
 <hr>
 <ul class="list-group list-group-flush">
@@ -30,7 +32,7 @@
     </tr>
   </thead>
   <tbody>
-  {% for key,value in orderedItems.items %}
+    {% for key,value in orderedItems.items %}
     <tr>
       <th scope="row">1</th>
       <td>{{key}}</td>
@@ -44,27 +46,37 @@
 
 <br>
 <div class="row g-0">
-  <div class="col-sm-12 col-md-12"><b><h2>Update Details:<h2></b></div>
+  <div class="col-sm-12 col-md-12"><b>
+      <h2>Update Details:<h2>
+    </b></div>
 </div>
 <hr>
 
-<form>
-<div class='form-check'>
-<label for="cars">Delivery Status</label>
-  <select id="delivery" name="delivery">
-    <option value="volvo">Ordered Received</option>
-    <option value="saab">Saab</option>
-    <option value="fiat">Fiat</option>
-  </select>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-  <label class="form-check-label" for="defaultCheck1">
-    Default checkbox
-  </label>
-</div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+<form action='' method='POST'>
+  {% csrf_token %}
+  <div class="container">
+    <div class="row">
+        <div class='col-4'>
+          <div class='form-check'>
+              <h4>Delivery Status: </h4>
+           {{form.orderStatus}}
+          </div>
+        </div>
+        <div class='col-4'>
+          <div class='form-check'>
+              <h4>Payment Method: </h4>
+              {{form.paymentMethod}}
+          </div>
+        </div>
+        <div class='col-4'>
+          <div class='form-check'>
+              <h4>Payment Status: </h4>
+              {{form.paymentStatus}}
+          </div>
+        </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary ml-4">Submit</button>
 </form>
 
 {% endblock body %}
-

@@ -10,7 +10,7 @@ from .models import Orders, Product,Contact,orderUpdate
 from math import ceil
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
-from .forms import CreateUserForm
+from .forms import CreateUserForm, OrderForm
 
 import xml.etree.ElementTree as Et
 
@@ -138,7 +138,7 @@ def checkout(request):
         phone = request.POST.get('phone','')
         order = Orders(items_json=items_json,name=name,email=email,amount=amount,address=address,city=city,state=state,phone=phone)
         order.save()
-        update = orderUpdate(order_id=order.order_id,update_desc="Your Order Has Been Placed")
+        update = orderUpdate(order_id=order.order_id,update_desc="Your Order Has Been Placed" )
         update.save()
         thank = True
 
@@ -249,12 +249,15 @@ def addProducts(request):
 @login_required
 def updateOrder(request,o_id):
     orders = Orders.objects.get(order_id=o_id)
+    form = OrderForm(instance=orders)
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST,instance=orders)
+        if form.is_valid:
+            form.save()
+            return redirect('/home')
+
     js = json.loads(orders.items_json)
     orderedItems = dict(js)
-    print(type(orderedItems),js)
-    context ={'orders':orders,'orderedItems':orderedItems}
-    products = {}
-    for item in orderedItems:
-        #products[]
-        print(orderedItems[item][1])
+    context ={'orders':orders,'orderedItems':orderedItems,'form':form}
     return render(request,'admin/orderUpdate.html',context)

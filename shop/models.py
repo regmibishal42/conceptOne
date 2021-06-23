@@ -29,6 +29,16 @@ class Contact(models.Model):
     
 
 class Orders(models.Model):
+    orderChoices = (
+        ('Order Received','Order Received'),
+        ('Order Pending','Order Pending'),
+        ('Order Delivered','Order Delivered')
+        )
+    paymentChoices =(
+        ('notPaid','notPaid'),
+        ('paidEsewa','paidEsewa'),
+        ('paidOnDelivery','paidOnDelivery')
+    )
     order_id = models.AutoField(primary_key=True)
     items_json = models.CharField(max_length=5000,default="")
     amount = models.IntegerField(default=0)
@@ -39,8 +49,8 @@ class Orders(models.Model):
     state = models.CharField(max_length=50)
     phone = models.CharField(max_length=13)
     orderDate = models.DateField(default=now)
-    orderStatus = models.CharField(max_length=50,default="Order Placed")
-    paymentMethod = models.CharField(max_length=20,default="Esewa")
+    orderStatus = models.CharField(max_length=50,choices=orderChoices,default='Order Received')
+    paymentMethod = models.CharField(max_length=20,choices=paymentChoices,default='notPaid')
     paymentStatus = models.BooleanField(default=False)
 
     def __str__(self):
@@ -49,7 +59,7 @@ class Orders(models.Model):
 
 class orderUpdate(models.Model):
     update_id = models.AutoField(primary_key=True)
-    order_id = models.IntegerField(default="")
+    order_id = models.ForeignKey(Orders,null=True,on_delete=models.SET_NULL)
     update_desc = models.CharField(max_length=1000)
     timestamp = models.DateField(auto_now_add=True)
     
