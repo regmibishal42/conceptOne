@@ -10,7 +10,7 @@ from .models import Orders, Product,Contact,orderUpdate
 from math import ceil
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
-from .forms import CreateUserForm, OrderForm
+from .forms import CreateUserForm, OrderForm, OrderUpdateForm
 
 import xml.etree.ElementTree as Et
 
@@ -140,7 +140,7 @@ def checkout(request):
         order.save()
         update = orderUpdate(order_id=order.order_id,update_desc="Your Order Has Been Placed" )
         update.save()
-        thank = True
+        # thank = True
 
         id = order.order_id
         valuesForPayment = {'id':id,'amount':int(amount)}
@@ -226,9 +226,9 @@ def logoutUser(request):
 
 @login_required(login_url='login')
 def home(request):
-    totalOrders = len(Orders.objects.filter(orderStatus='Order Placed'))
-    deliveredOrders = len(Orders.objects.filter(orderStatus='Delivered'))
-    pendingOrders = len(Orders.objects.filter(orderStatus="Pending"))
+    totalOrders = Orders.objects.filter(orderStatus='Order Received').count()
+    deliveredOrders = Orders.objects.filter(orderStatus='Order Delivered').count()
+    pendingOrders = Orders.objects.filter(orderStatus="Order Pending").count()
     orders = Orders.objects.all()
 
     print(orders)
@@ -249,15 +249,34 @@ def addProducts(request):
 @login_required
 def updateOrder(request,o_id):
     orders = Orders.objects.get(order_id=o_id)
+    orderUpdates = orderUpdate.objects.get(order_id=o_id)
     form = OrderForm(instance=orders)
+    orderUpdateForm = OrderUpdateForm(instance=orderUpdates)
 
     if request.method == 'POST':
         form = OrderForm(request.POST,instance=orders)
-        if form.is_valid:
+        orderUpdateForm = OrderUpdateForm(request.POST,instance=orderUpdates)
+        if form.is_valid and orderUpdateForm.is_valid:
             form.save()
+            orderUpdateForm.save()
             return redirect('/home')
+
 
     js = json.loads(orders.items_json)
     orderedItems = dict(js)
-    context ={'orders':orders,'orderedItems':orderedItems,'form':form}
+    context ={'orders':orders,'orderedItems':orderedItems,'form':form,'updateForm':orderUpdateForm}
     return render(request,'admin/orderUpdate.html',context)
+
+
+
+@login_required
+def deleteOrder(request,delete_id):
+    order = Orders.objects.get(order_id=delete_id)
+    orderUpdates = orderUpdate.objects.get(order_id=delete_id)
+    print(orderUpdates.order_id)
+    if request.method == "POST":
+        order.delete()
+        orderUpdates.delete()
+        return redirect('home')
+    context ={'order':order,'orderUpdates':orderUpdates}
+    return render(request,'admin/deleteOrder.html',context)

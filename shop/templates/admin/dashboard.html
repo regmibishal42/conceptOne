@@ -27,7 +27,7 @@
 		<h5>ORDERS</h5>
 		<hr>
 		<div class="card card-body">
-			<a class="btn btn-primary  btn-sm btn-block" href="">Create Order</a>
+			<a class="btn btn-primary  btn-sm btn-block" href="">Order Details:</a>
 			<table class="table table-sm">
 				<tr>
 					<th>Customer</th>
@@ -45,8 +45,8 @@
 					<td>{{order.orderDate}}</td>
 					<td>{{order.orderStatus}}</td>
 					<td>{{order.paymentStatus}}</td>
-					<td><a href='updateOrder/{{order.order_id}}'>Update</a></td>
-					<td><a href=''>Delete</a></td>
+					<td><a class="btn btn-primary" href='updateOrder/{{order.order_id}}'>Update</a></td>
+					<td><a class="btn btn-danger" href='deleteOrder/{{order.order_id}}'>Delete</a></td>
 				</tr>
 				{% endfor %}
 		

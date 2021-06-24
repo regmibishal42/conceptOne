@@ -2,6 +2,7 @@
 
 {% block title %}update Order{% endblock title %}
 
+
 {% block body %}
 
 <br>
@@ -56,27 +57,40 @@
   {% csrf_token %}
   <div class="container">
     <div class="row">
-        <div class='col-4'>
-          <div class='form-check'>
-              <h4>Delivery Status: </h4>
-           {{form.orderStatus}}
-          </div>
+      <div class='col-3'>
+        <div class='form-check'>
+          <h4>Delivery Status: </h4>
+          {{form.orderStatus}}
         </div>
-        <div class='col-4'>
-          <div class='form-check'>
-              <h4>Payment Method: </h4>
-              {{form.paymentMethod}}
-          </div>
+      </div>
+      <div class='col-3'>
+        <div class='form-check'>
+          <h4>Payment Method: </h4>
+          {{form.paymentMethod}}
         </div>
-        <div class='col-4'>
-          <div class='form-check'>
-              <h4>Payment Status: </h4>
-              {{form.paymentStatus}}
-          </div>
+      </div>
+      <div class='col-3'>
+        <div class='form-check'>
+          <h4>Payment Status: </h4>
+          {{form.paymentStatus}}
         </div>
+      </div>
+      <div class="col-3">
+        <h4>Update Tracking Discription</h4>
+        {{updateForm.update_desc}}
+      </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary ml-4">Submit</button>
+  <br>
+  <div class="row mt-5">
+    <div class="col-4">
+    </div>
+    <div class='col-4'>
+      <button type="submit" class="btn btn-primary">Update Order Information</button>
+    </div>
+    <div class='col-4'></div>
+  </div>
+
 </form>
 
 {% endblock body %}

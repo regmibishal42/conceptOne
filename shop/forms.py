@@ -1,8 +1,9 @@
+from django.db.models.base import Model
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Orders
+from .models import Orders, orderUpdate
 
 
 class CreateUserForm(UserCreationForm):
@@ -17,6 +18,12 @@ class OrderForm(ModelForm):
     class Meta:
         model = Orders
         fields = ['orderStatus','paymentMethod','paymentStatus']
+
+
+class OrderUpdateForm(ModelForm):
+    class Meta:
+        model = orderUpdate
+        fields = ['update_desc']
 
 
 

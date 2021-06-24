@@ -59,7 +59,8 @@ class Orders(models.Model):
 
 class orderUpdate(models.Model):
     update_id = models.AutoField(primary_key=True)
-    order_id = models.ForeignKey(Orders,null=True,on_delete=models.SET_NULL)
+    # order_id = models.ForeignKey(Orders,null=True,on_delete=models.SET_NULL)
+    order_id = models.IntegerField(default=97)
     update_desc = models.CharField(max_length=1000)
     timestamp = models.DateField(auto_now_add=True)
     
