@@ -230,9 +230,10 @@ def home(request):
     deliveredOrders = Orders.objects.filter(orderStatus='Order Delivered').count()
     pendingOrders = Orders.objects.filter(orderStatus="Order Pending").count()
     orders = Orders.objects.all()
+    contacts = Contact.objects.all()
 
-    print(orders)
-    context = {'totalOrders':totalOrders,'deliveredOrders':deliveredOrders,'pendingOrders':pendingOrders,'orders':orders}
+    print(contacts)
+    context = {'totalOrders':totalOrders,'deliveredOrders':deliveredOrders,'pendingOrders':pendingOrders,'orders':orders,'contacts':contacts}
     return render(request,'admin/dashboard.html',context)
 
 @login_required
@@ -240,10 +241,6 @@ def viewProducts(request):
     allProducts = Product.objects.all()
     context = {'products':allProducts}
     return render(request,'admin/viewProducts.html',context)
-
-@login_required
-def addProducts(request):
-    return render(request,'admin/addProducts.html')
 
 
 @login_required
@@ -280,3 +277,14 @@ def deleteOrder(request,delete_id):
         return redirect('home')
     context ={'order':order,'orderUpdates':orderUpdates}
     return render(request,'admin/deleteOrder.html',context)
+
+@login_required
+def addProducts(request):
+    context={}
+    return render(request,'admin/addProducts.html',context)
+
+@login_required
+def viewContactUs(request,c_id):
+    contactDetails = Contact.objects.get(contactId=c_id)
+    context={'contactDetails':contactDetails}
+    return render(request,'admin/contactMessages.html',context)

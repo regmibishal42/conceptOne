@@ -55,6 +55,41 @@
 	</div>
 
 </div>
+<br>
+
+<!-- Display Contact Us Messages -->
+	<div class="row">
+
+		<div class="col-md-12">
+			<h5>Contact Messages</h5>
+			<hr>
+			<div class="card card-body">
+				<a class="btn btn-primary  btn-sm btn-block" href="">Messages</a>
+				<table class="table table-sm">
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Phone</th>
+						<th>Message</th>
+						<th>View</th>
+						<th>Delete</th>
+					</tr>
+					{% for contact in contacts %}
+					<tr>
+						<td>{{contact.name}}</td>
+						<td>{{ contact.email }}</td>
+						<td>{{contact.phone}}</td>
+						<td>{{contact.description|slice:"0:20"}}...</td>
+						<td><a class="btn btn-primary" href='viewMessages/{{contact.contactId}}'>View</a></td>
+						<td><a class="btn btn-danger" href=''>Delete</a></td>
+					</tr>
+					{% endfor %}
+			
+				</table>
+			</div>
+		</div>
+
+	</div>
 
 
 {% endblock body %}

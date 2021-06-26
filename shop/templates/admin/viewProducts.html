@@ -24,6 +24,8 @@
 							<th>Product</th>
 							<th>Category</th>
 							<th>Price</th>
+							<th>Update</th>
+							<th>Delete</th>
 						</tr>
 
 						{% for i in products %}
@@ -31,6 +33,8 @@
 								<td>{{i.product_name}}</td>
 								<td>{{i.categoty}}</td>
 								<td>{{i.price}}</td>
+								<td><a class="btn btn-primary" href="">Update</a></td>
+								<td><a class="btn btn-danger" href="">Delete</a></td>
 							</tr>
 						{% endfor %}
 						
