@@ -231,8 +231,6 @@ def home(request):
     pendingOrders = Orders.objects.filter(orderStatus="Order Pending").count()
     orders = Orders.objects.all()
     contacts = Contact.objects.all()
-
-    print(contacts)
     context = {'totalOrders':totalOrders,'deliveredOrders':deliveredOrders,'pendingOrders':pendingOrders,'orders':orders,'contacts':contacts}
     return render(request,'admin/dashboard.html',context)
 
@@ -288,3 +286,12 @@ def viewContactUs(request,c_id):
     contactDetails = Contact.objects.get(contactId=c_id)
     context={'contactDetails':contactDetails}
     return render(request,'admin/contactMessages.html',context)
+
+@login_required
+def deleteContactMessage(request,c_id):
+    contact = Contact.objects.get(contactId=c_id)
+    if request.method == "POST":
+        contact.delete()
+        return redirect('/home')
+    context = {'contact':contact}
+    return render(request,'admin/deleteContact.html',context)

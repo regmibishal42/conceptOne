@@ -1,12 +1,88 @@
 {% extends 'admin/base1.html' %}
 
 {% block title %}Contact Message{% endblock title %}
+{% block style %}
+<style>
+    body {
+        background-color: #ebeff5
+    }
+
+    .container {
+        margin-left: 0;
+    }
+</style>
+{% endblock style %}
 
 {% block body %}
 
+<br>
+<h3>Message From {{contactDetails.name}}:</h3>
+<hr>
+<!-- <div class="container">
+    <div class='row'>
+        <div class="col-6">
+            <h4>Name:{{contactDetails.name}}</h4>
+        </div>
+        <div class='col-6'>
+            <h4>Email:{{contactDetails.email}}</h4>
+        </div>
+    </div>
+    <br>
+    <div class='row'>
+        <h4>Contact Message:</h4>
+        <br>
+        <p>{{contactDetails.description}}</p>
+    </div>
+    <div class='row'>
+        <div class='col-6'>
+            <a class="btn btn-primary btn-lg btn-block" href="mailto:{{contactDetails.email}}" role="button">Respond</a>
+        </div>
+        <div class='col-6'>
+            <a class="btn btn-danger btn-lg btn-block" href="/home" role="button">Ignore For Now</a>
+        </div>
+    </div>
+    
+</div> -->
+<div class="row">
+    <div class="col-md-12">
+        <div class='card card-body'>
+            <a class='btn btn-primary btn-sm btn-block' href="">Details About {{contactDetails.name}}</a>
+            <table class='table table-sm'>
+                <tr>
+                    <th>Contact_Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+                <tr>
+                    <td>{{contactDetails.contactId}}</td>
+                    <td>{{contactDetails.name}}</td>
+                    <td>{{contactDetails.email}}</td>
+                    <td>{{contactDetails.phone}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 
-{{contactDetails.name}}
-{{contactDetails.email}}
-{{contactDetails.description}}
+<div class='row'>
+    <h5>Message</h5>
+    <br>
+    <div class='card card-body'>
+        <p>{{contactDetails.description}}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class='card card-body'>
+            <a class='btn btn-primary btn-md btn-block' href="mailto:{{contactDetails.email}}">Respond to {{contactDetails.name}}</a>
+        </div>
+    </div>
+    <div class='col-md-6'>
+        <div class='card card-body'>
+            <a class='btn btn-danger btn-md btn-block' href="/home">Ignore For Now</a>
+        </div>
+    </div>
+</div>
 
 {% endblock body %}
