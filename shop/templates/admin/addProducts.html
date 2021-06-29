@@ -3,6 +3,15 @@
 {% block title %}AddProduct{% endblock title %}
 
 {% block body %}
-This is add Product PAge
+This is add Product Page
+
+<form action=" " method="POST">
+{% csrf_token %}
+
+
+{{form}}
+<input type="submit" name='submit'>
+
+</form>
 
 {% endblock body %}

@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Contact, Orders, orderUpdate
+from .models import Contact, Orders, Product, orderUpdate
 
 
 class CreateUserForm(UserCreationForm):
@@ -26,10 +26,10 @@ class OrderUpdateForm(ModelForm):
         model = orderUpdate
         fields = ['update_desc']
 
-class ContactUsForm(ModelForm):
+class ProductUpdateForm(ModelForm):
     class Meta:
-        model = Contact
-        fields = ['name','email','description']
+        model = Product
+        fields = ['product_name','categoty','subcategory','price','desc','pub_date','image','availability']
 
 
 

@@ -10,7 +10,7 @@ from .models import Orders, Product,Contact,orderUpdate
 from math import ceil
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
-from .forms import CreateUserForm, OrderForm, OrderUpdateForm
+from .forms import CreateUserForm, OrderForm, OrderUpdateForm, ProductUpdateForm
 
 import xml.etree.ElementTree as Et
 
@@ -295,3 +295,29 @@ def deleteContactMessage(request,c_id):
         return redirect('/home')
     context = {'contact':contact}
     return render(request,'admin/deleteContact.html',context)
+
+@login_required
+def createProducts(request):
+    form = ProductUpdateForm()
+    context = {'form':form}
+    if request.method == "POST":
+        form = ProductUpdateForm(request.post)
+        if form.is_valid():
+            form.save()
+            return redirect('/viewProducts')
+    return render(request,'admin/addProducts.html',context)
+
+
+@login_required
+def updateProducts(request,p_id):
+    product = Product.objects.get(id=p_id)
+    print(product)
+    form = ProductUpdateForm(instance=product)
+    if request.method == "POST":
+        form = ProductUpdateForm(request.POST,instance=product)
+        if form.is_valid:
+            form.save()
+            return redirect('/viewProducts')
+    
+    context = {'form':form}
+    return render(request,'admin/addProducts.html',context )
