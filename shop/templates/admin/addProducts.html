@@ -2,16 +2,87 @@
 
 {% block title %}AddProduct{% endblock title %}
 
+{% block style %}
+
+<style>
+
+    #id_product_name{
+        border-radius: 5px;
+        color: darkblue;
+    }
+    .container{
+        margin-left: 10px;
+        margin-right: 0px;
+    }
+    .row{
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+    #id_desc{
+        border: none;
+        height: 200px;
+        width: 500px;
+        font-size: 14px;
+    }
+
+</style>
+
+{% endblock style %}
+
 {% block body %}
-This is add Product Page
-
-<form action=" " method="POST">
-{% csrf_token %}
 
 
-{{form}}
-<input type="submit" name='submit'>
-
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+<br>
+<hr>
+    <div class="container-fluid">
+        <table class="table">
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <td>{{form.product_name}}</td>
+              </tr>
+              <tr>
+                <th>Category</th>
+                <td>{{form.categoty}}</td>
+              </tr>
+              <tr>
+                <th>Sub-Category</th>
+                <td>{{form.subcategory}}</td>
+              </tr>
+              <tr>
+                <th>Price</th>
+                <td>{{form.price}}</td>
+              </tr>
+              <tr>
+                <th>PublishedDate</th>
+                <td>{{form.pub_date}}</td>
+              </tr>
+              <tr>
+                <th>Image</th>
+                <td>{{form.image}}</td>
+              </tr>
+              <tr>
+                <th>Availability</th>
+                <td>{{form.availability}}</td>
+              </tr>
+            </tbody> 
+          </table>
+        <div class='row'>
+            <div class='col-12'>
+                <h4>Description:</h4>
+                <br>   
+                {{form.desc}}
+            </div>
+        </div>
+    <div class='row'>
+        <button class="btn btn-primary  btn-sm btn-block" type='submit'>Submit Details</button>
+        <!-- <a class="btn btn-primary  btn-sm btn-block" href="">Order Details:</a> -->
+    </div>
+    
 </form>
 
 {% endblock body %}

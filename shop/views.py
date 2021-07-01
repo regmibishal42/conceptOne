@@ -276,10 +276,10 @@ def deleteOrder(request,delete_id):
     context ={'order':order,'orderUpdates':orderUpdates}
     return render(request,'admin/deleteOrder.html',context)
 
-@login_required
-def addProducts(request):
-    context={}
-    return render(request,'admin/addProducts.html',context)
+# @login_required
+# def addProducts(request):
+#     context={}
+#     return render(request,'admin/addProducts.html',context)
 
 @login_required
 def viewContactUs(request,c_id):
@@ -298,23 +298,28 @@ def deleteContactMessage(request,c_id):
 
 @login_required
 def createProducts(request):
-    form = ProductUpdateForm()
-    context = {'form':form}
+    
     if request.method == "POST":
-        form = ProductUpdateForm(request.post)
+        print(request.POST)
+        form = ProductUpdateForm(request.POST,request.FILES)
         if form.is_valid():
+            print('Yeha control gayo')
             form.save()
             return redirect('/viewProducts')
+        else:
+            print(form.errors)
+            
+    form = ProductUpdateForm()       
+    context = {'form':form}
     return render(request,'admin/addProducts.html',context)
 
 
 @login_required
 def updateProducts(request,p_id):
     product = Product.objects.get(id=p_id)
-    print(product)
     form = ProductUpdateForm(instance=product)
     if request.method == "POST":
-        form = ProductUpdateForm(request.POST,instance=product)
+        form = ProductUpdateForm(request.POST,request.FILES,instance=product)
         if form.is_valid:
             form.save()
             return redirect('/viewProducts')

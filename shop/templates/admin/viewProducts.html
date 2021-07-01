@@ -8,9 +8,10 @@
 		<br>
 
 		<div class="row">
-			<div class="col-md">
+			<div class="col-md-12">
+				<h5>Products</h5>
 				<div class="card card-body">
-					<h5>Products</h5>
+					<a class="btn btn-primary  btn-sm btn-block" href="/createProducts">Add New Product</a>
 				</div>
 				<div class="card card-body">
 					<table class="table">
@@ -27,7 +28,7 @@
 								<td>{{i.product_name}}</td>
 								<td>{{i.categoty}}</td>
 								<td>{{i.price}}</td>
-								<td><a class="btn btn-primary" href="">Update</a></td>
+								<td><a class="btn btn-primary" href="/updateProduct/{{i.id}}">Update</a></td>
 								<td><a class="btn btn-danger" href="">Delete</a></td>
 							</tr>
 						{% endfor %}

@@ -1,6 +1,6 @@
 from django.db.models import fields
 from django.db.models.base import Model
-from django.forms import ModelForm
+from django.forms import ModelForm, widgets
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
@@ -29,7 +29,12 @@ class OrderUpdateForm(ModelForm):
 class ProductUpdateForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['product_name','categoty','subcategory','price','desc','pub_date','image','availability']
+        fields = '__all__'
+        # fields = ['product_name','categoty','subcategory','price','desc','pub_date','image','availability']
+        # widgets = {
+        #     'desc':forms.Textarea(attrs={"rows":3}),
+        #     # 'pub_date':forms.DateField()
+        # }
 
 
 
