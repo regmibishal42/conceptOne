@@ -1,12 +1,12 @@
 import json
-import simplejson
+import datetime
 from django.contrib.messages.api import success
 from django.db.models.fields import NullBooleanField
 import requests
 from django.views.generic import View
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, response
-from .models import Orders, Product,Contact,orderUpdate
+from .models import Orders, Product,Contact, Sales,orderUpdate
 from math import ceil
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
@@ -168,10 +168,13 @@ class EsewaVerifyView(View):
             'pid':oid,
         }
         resp = requests.post(url, d)
-
         root = Et.fromstring(resp.content)
+        print(root)
         status = root[0].text.strip()
         if status == "Success":
+            order = Orders.objects.get(order_id=oid)
+            sale = Sales(order_id=order.id,itemsSold = order.items_json,totalPrice = int(float(amount)),customerName = order.name,customerContact = order.phone,soldDate = datetime.date.today())
+            sale.save()
             return redirect('/')
         else:
             return redirect('/checkout')
@@ -336,3 +339,8 @@ def deleteProduct(request,p_id):
     
     context = {'product':product}
     return render(request,'admin/deleteProduct.html',context)
+
+@login_required
+def salesDashboard(request):
+    context ={}
+    return render(request,'admin/sales.html',context)

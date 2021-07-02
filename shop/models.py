@@ -99,6 +99,19 @@ class orderUpdate(models.Model):
     
 
     def __str__(self):
-        return self.update_desc[0:7] + "..."
+        return str(self.order_id) + self.update_desc[0:7] + "..."
+
+class Sales(models.Model):
+    order_id = models.IntegerField(default=00)
+    itemsSold  = models.CharField(max_length=50)
+    totalPrice = models.IntegerField()
+    customerName  = models.CharField(max_length=50)
+    customerContact = models.CharField(max_length=100)
+    soldDate  = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.order_id) + " " + self.customerName
+
+
     
     
