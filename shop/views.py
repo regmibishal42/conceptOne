@@ -300,7 +300,7 @@ def deleteContactMessage(request,c_id):
 def createProducts(request):
     
     if request.method == "POST":
-        print(request.POST)
+        # print(request.POST)
         form = ProductUpdateForm(request.POST,request.FILES)
         if form.is_valid():
             print('Yeha control gayo')
@@ -326,3 +326,13 @@ def updateProducts(request,p_id):
     
     context = {'form':form}
     return render(request,'admin/addProducts.html',context )
+
+@login_required
+def deleteProduct(request,p_id):
+    product = Product.objects.get(id=p_id)
+    if request.method == "POST":
+        product.delete()
+        return redirect('/viewProducts')
+    
+    context = {'product':product}
+    return render(request,'admin/deleteProduct.html',context)

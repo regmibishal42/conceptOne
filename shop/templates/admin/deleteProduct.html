@@ -1,0 +1,33 @@
+{% extends 'admin/base1.html' %}
+
+{% block title %}Delete Product{% endblock title %}
+
+{% block body %}
+
+
+<form action="{% url 'deleteProduct' product.id %}" method="POST">
+{% csrf_token %}
+
+    <div class="card text-center">
+        <div class="card-header">
+            Delete Contact Message
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Are You Sure You Want to Delete "{{product.product_name}}"??</h5>
+            <br>
+            <div class=row>
+            <div class='col-sm-6'>
+                <a class="btn btn-primary" href="{% url 'viewProducts' %}">Cancel</a>
+            </div>
+            <div class='col-sm-6'>
+                <input type="submit" name="Confirm" class='btn btn-danger'>
+            </div>
+        </div>
+        </div>
+        <div class="card-footer text-muted">
+            This Will Pernamnelty Delete This Message
+        </div>
+    </div>
+</form>
+
+{% endblock body %}
