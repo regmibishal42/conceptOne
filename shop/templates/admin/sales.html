@@ -4,5 +4,19 @@
 
 {% block body %}
 This is a Sales Page
+<br>
+<hr>
+{% for sale in sales %}
+{{sale.itemsSold}}
+{{sale.totalPrice}}
+{{sale.customerName}}
+<br>
+<hr>
+
+{% endfor %}
+
+{% for key,values in soldProduct.items %}
+<p>{{key}} : {{values}} </p>
+{% endfor %}
 
 {% endblock body %}

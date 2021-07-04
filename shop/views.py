@@ -273,6 +273,14 @@ def deleteOrder(request,delete_id):
     orderUpdates = orderUpdate.objects.get(order_id=delete_id)
     print(orderUpdates.order_id)
     if request.method == "POST":
+        # if payment has been Paid sent the Order to Sales Model
+        if Sales.objects.filter(order_id=delete_id):
+            pass
+        else:
+            print('ID DOES NOT EXIST IN POST')
+            sales = Sales(order_id=delete_id,itemsSold = order.items_json,totalPrice=order.amount,customerName=order.name,customerContact=order.phone,soldDate=datetime.date.today())
+            sales.save()
+        
         order.delete()
         orderUpdates.delete()
         return redirect('home')
@@ -342,5 +350,24 @@ def deleteProduct(request,p_id):
 
 @login_required
 def salesDashboard(request):
-    context ={}
+    sales = Sales.objects.all()
+    # find out Top Sold Items
+    SoldProduct = {}
+    for sale in sales:
+        salesDict = json.loads(sale.itemsSold)
+        for key,value in salesDict.items():
+            if str(value[1]) in SoldProduct.keys():
+                SoldProduct[value[1]] += value[0]
+                print('Mouse Exist')
+            else:
+                SoldProduct[value[1]] = value[0]
+    sortedListOfSoldProducts = sorted(SoldProduct.items())
+    # since sorted functions converts dict to list 
+    # so lets change it to original
+    SoldProduct = dict(sortedListOfSoldProducts)
+    print(SoldProduct)
+
+    # Find Total Sales Amount In a Year
+
+    context ={'sales':sales,'soldProduct':SoldProduct}
     return render(request,'admin/sales.html',context)
