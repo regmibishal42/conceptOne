@@ -2,6 +2,7 @@ import json
 import datetime
 from django.contrib.messages.api import success
 from django.db.models.fields import NullBooleanField
+from django.db.models.functions.datetime import ExtractMonth
 import requests
 from django.views.generic import View
 from django.shortcuts import redirect, render
@@ -10,6 +11,8 @@ from .models import Orders, Product,Contact, Sales,orderUpdate
 from math import ceil
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
+from django.db.models.functions import Extract
+from django.db.models import Q
 from .forms import CreateUserForm, OrderForm, OrderUpdateForm, ProductUpdateForm
 
 import xml.etree.ElementTree as Et
@@ -355,19 +358,50 @@ def salesDashboard(request):
     SoldProduct = {}
     for sale in sales:
         salesDict = json.loads(sale.itemsSold)
+        # print(sale.get_year())
+        # print(sale.get_month())
+        # print(sale.get_day())
+        
         for key,value in salesDict.items():
             if str(value[1]) in SoldProduct.keys():
                 SoldProduct[value[1]] += value[0]
-                print('Mouse Exist')
+                # print('Mouse Exist')
             else:
                 SoldProduct[value[1]] = value[0]
     sortedListOfSoldProducts = sorted(SoldProduct.items())
     # since sorted functions converts dict to list 
     # so lets change it to original
     SoldProduct = dict(sortedListOfSoldProducts)
-    print(SoldProduct)
+    # print(SoldProduct)
 
     # Find Total Sales Amount In a Year
+    currentDate = datetime.date.today()
+    currentweek = int(datetime.date.today().strftime('%V'))
+    totalSalesInYear = 0
+    salesInYear = Sales.objects.annotate(year=Extract('soldDate','year')).filter(year=currentDate.year)
+    # print('Total sales in '+str(currentDate.year)+ "=" +str(salesInYear))
+    for sale in salesInYear:
+        totalSalesInYear += sale.totalPrice
 
-    context ={'sales':sales,'soldProduct':SoldProduct}
+    # Total Sales In Months
+    totalSalesInMonth = 0
+    # If this and doesnot work then use q funstion
+    #from django.db.models import Q
+    # User.objects.filter(Q(income__gte=5000) | Q(income__isnull=True))
+    salesInMonth = Sales.objects.annotate(year=Extract('soldDate','year')).filter(year=currentDate.year) and Sales.objects.annotate(month=Extract('soldDate','month')).filter(month = currentDate.month)
+    for sale in salesInMonth:
+        totalSalesInMonth += sale.totalPrice
+    
+    # Total Sales in A Week
+    totalSalesInWeek = 0
+    salesInWeek = Sales.objects.annotate(year=Extract('soldDate','year'),week=Extract('soldDate','week')).filter(Q(year=currentDate.year) and Q(week = currentweek))
+    for sale in salesInWeek:
+        totalSalesInWeek += sale.totalPrice
+
+    salesByPeriod = {
+        'inYear': totalSalesInYear,
+        'inMonth' : totalSalesInMonth,
+        'inWeek' :totalSalesInWeek
+    }
+    context ={'sales':sales,'soldProduct':SoldProduct,'salesByPeriod':salesByPeriod}
     return render(request,'admin/sales.html',context)

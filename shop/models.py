@@ -112,6 +112,13 @@ class Sales(models.Model):
     def __str__(self):
         return str(self.order_id) + " " + self.customerName
 
+    def get_year(self):
+        return self.soldDate.year
+    def get_month(self):
+        return self.soldDate.month
+    def get_day(self):
+        return self.soldDate.day
+
 
     
     

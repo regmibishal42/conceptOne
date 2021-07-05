@@ -6,6 +6,13 @@
 This is a Sales Page
 <br>
 <hr>
+{{salesByPeriod.inYear}}
+{{salesByPeriod.inMonth}}
+{{salesByPeriod.inWeek}}
+
+<br>
+<hr>
+
 {% for sale in sales %}
 {{sale.itemsSold}}
 {{sale.totalPrice}}
@@ -16,7 +23,10 @@ This is a Sales Page
 {% endfor %}
 
 {% for key,values in soldProduct.items %}
+{% if forloop.counter < 6  %}
 <p>{{key}} : {{values}} </p>
+{% endif %}
+
 {% endfor %}
 
 {% endblock body %}
