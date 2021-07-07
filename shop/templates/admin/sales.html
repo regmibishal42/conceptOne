@@ -2,31 +2,164 @@
 
 {% block title %}SalesReport{% endblock title %}
 
+{% block style %}
+
+    <style>
+		
+		#logo{
+		}
+
+		body{
+			background-color: #ebeff5;
+		}
+
+
+		#total-orders{
+			background-color: #4cb4c7;
+		}
+
+
+		#orders-delivered{
+			background-color: #7abecc;
+		}
+
+		#orders-pending{
+			background-color: #7CD1C0;
+		}
+    </style>
+
+{% endblock style %}
+
 {% block body %}
-This is a Sales Page
-<br>
-<hr>
-{{salesByPeriod.inYear}}
-{{salesByPeriod.inMonth}}
-{{salesByPeriod.inWeek}}
+
 
 <br>
-<hr>
 
-{% for sale in sales %}
-{{sale.itemsSold}}
-{{sale.totalPrice}}
-{{sale.customerName}}
+<div class="row">
+	<div class="col">
+		<div class="col-md">
+			<div class="card text-center text-white  mb-3" id="total-orders">
+			  	<div class="card-header">
+			  		<h5 class="card-title">Total Sales This Year</h5>
+			  	</div>
+			  	<div class="card-body">
+			    	<h3 class="card-title">{{salesByPeriod.inYear}}</h3>
+			  	</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col">
+		<div class="col-md">
+			<div class="card text-center text-white  mb-3" id="orders-delivered">
+			  	<div class="card-header">
+			  		<h5 class="card-title">Total Sales This Months</h5>
+			  	</div>
+			  	<div class="card-body">
+			    	<h3 class="card-title">{{salesByPeriod.inMonth}}</h3>
+			  	</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col">
+		<div class="col-md">
+			<div class="card text-center text-white  mb-3" id="orders-pending">
+			  	<div class="card-header">
+			  		<h5 class="card-title">Total Sales This Week</h5>
+			  	</div>
+			  	<div class="card-body">
+			    	<h3 class="card-title">{{salesByPeriod.inWeek}}</h3>
+			  	</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<br>
+<div class="row">
+	<div class="col-md-6">
+		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="">Top 5 Most Sold Items</a>
+			<table class="table table-sm">
+				<tr>
+					<th></th>
+					<th>Customer</th>
+					<th>Orders</th>
+				</tr>
+                {% for key,values in soldProduct.items %}
+                {% if forloop.counter < 6  %}
+                <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{key}}</td>
+                <td>{{values}}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+			</table>
+		</div>
+	</div>
+    <div class="col-md-6">
+		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="">Top 5 Most Sold Items</a>
+			<table class="table table-sm">
+				<tr>
+					<th></th>
+					<th>Customer</th>
+					<th>Orders</th>
+				</tr>
+                {% for key,values in soldProduct.items %}
+                {% if forloop.counter < 6  %}
+                <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{key}}</td>
+                <td>{{values}}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+			</table>
+		</div>
+	</div>
+
+</div>
 <br>
 <hr>
+<div class="row">
+    <div class="col-md-12">
+		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="">All Sales:</a>
+			<table class="table table-sm">
+				<tr>
+					<th></th>
+					<th>Customer Name</th>
+					<th>Items Sold</th>
+					<th>Total Price</th>
+					<th>Date</th>
+					<th>Customer Contact</th>
+					<th>Remove</th>
+				</tr>
+				{% for sale in sales %}
+				<tr>
+					<td>{{forloop.counter}}</td>
+					<td>{{sale.customerName}}</td>
+					<td>{{sale.itemsSold}}</td>
+					<td>{{sale.totalPrice}}</td>
+					<td>{{sale.soldDate}}</td>
+                    <td>{{sale.customerContact}}
+					<td><a class="btn btn-danger" href=''>Delete</a></td>
+				</tr>
+				{% endfor %}
+		
+			</table>
+		</div>
+	</div>
+</div>
 
-{% endfor %}
 
-{% for key,values in soldProduct.items %}
-{% if forloop.counter < 6  %}
-<p>{{key}} : {{values}} </p>
-{% endif %}
 
-{% endfor %}
+
+
 
 {% endblock body %}

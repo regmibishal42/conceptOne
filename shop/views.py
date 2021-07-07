@@ -374,6 +374,9 @@ def salesDashboard(request):
     SoldProduct = dict(sortedListOfSoldProducts)
     # print(SoldProduct)
 
+    # Least Sold Products
+    
+
     # Find Total Sales Amount In a Year
     currentDate = datetime.date.today()
     currentweek = int(datetime.date.today().strftime('%V'))
