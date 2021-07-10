@@ -139,6 +139,7 @@ def checkout(request):
         city = request.POST.get('city','')
         state = request.POST.get('state','')
         phone = request.POST.get('phone','')
+        paymentMethod = request.POST.get('paymentMethod','')
         order = Orders(items_json=items_json,name=name,email=email,amount=amount,address=address,city=city,state=state,phone=phone)
         order.save()
         update = orderUpdate(order_id=order.order_id,update_desc="Your Order Has Been Placed" )
@@ -148,7 +149,12 @@ def checkout(request):
         id = order.order_id
         valuesForPayment = {'id':id,'amount':int(amount)}
         print(valuesForPayment)
-        return render(request,'shop/esewa.html',valuesForPayment)
+        print(paymentMethod)
+        if paymentMethod == "Cash On Delivery":
+            messages.success(request,'Your Order has Been Placed.You decided for Cash On Delivery Method. Use Your Order Id to track Your Order. Order Id:'+str(id))
+            redirect('/checkout')
+        else:
+            return render(request,'shop/esewa.html',valuesForPayment)
     return render(request,'shop/checkout.html')
 
 
@@ -176,13 +182,20 @@ class EsewaVerifyView(View):
         status = root[0].text.strip()
         if status == "Success":
             order = Orders.objects.get(order_id=oid)
-            sale = Sales(order_id=order.id,itemsSold = order.items_json,totalPrice = int(float(amount)),customerName = order.name,customerContact = order.phone,soldDate = datetime.date.today())
+            order.paymentMethod = "paidEsewa"
+            order.paymentStatus = True
+            order.save()
+            sale = Sales(order_id=order.order_id,itemsSold = order.items_json,totalPrice = int(float(amount)),customerName = order.name,customerContact = order.phone,soldDate = datetime.date.today())
             sale.save()
-            return redirect('/')
-        else:
+            messages.success(request,'Your Order has been received. To Track It use your order Id'+str(oid))
             return redirect('/checkout')
 
-def errorPage(request):
+        else:
+            messages.warning(request,'Esewa Failure Occured')
+            return redirect('/checkout')
+
+def errorPage(request,o_id):
+    messages.warning(request,'Due To esewa Failure,we couldnot continue with your payment. Please Pay Via Cash On Delivery. Your Order Id is:'+str(o_id))
     return render(request,'shop/errorPage.html')
 
 

@@ -3,6 +3,11 @@
 {% block body %}
 <div class="container">
     <div class="col my-4">
+    {% if messages %}
+    {% for message in messages %}
+    <h2>{{message}}</h2>
+    {% endfor %}
+    {% endif %}
         <h2> Step 1 - ConceptOne Express Checkout - Review Your Cart items </h2>
         <div class="mt-2 my-4">
             <ul class="list-group" id='items'>
@@ -52,6 +57,15 @@
                 <label for="inputPhone">Phone Number</label>
                 <input type="tel" class="form-control" id="phone" name="phone">
             </div>
+            <div class="form-group">
+                <label for="inputPaymentMethod">Payment Method: </label>
+                <select class="form-select" name="paymentMethod">
+                    <option selected>Cash On Delivery</option>
+                    <option value="1">Pay Via Esewa</option>
+                </select>
+            </div>
+
+             <hr>
             <button type="submit" class="btn btn-primary">Place Order</button>
         </form>
     </div>
@@ -92,10 +106,17 @@ document.getElementById('cart').innerHTML = sum;
 document.getElementById('totalPrice').innerHTML = totalPrice;
 
 $('#itemsJson').val(JSON.stringify(cart));
-{% if thank %}
-alert('Thnaks For Ordering With Us. Use Your ID to Track Your Delivery')
+{% comment %} {% if thank %}
+alert('Thanks For Ordering With Us. Use Your ID to Track Your Delivery')
 localStorage.clear();
 document.location = '/';
+{% endif %} {% endcomment %}
+
+{% if messages %}
+alert({% for message in messages %}{{message}}{% endfor %});
+localStorage.clear();
+document.location = '/';
+
 {% endif %}
 
 $('#amount').val($('#totalPrice').html())
