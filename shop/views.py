@@ -20,6 +20,7 @@ import xml.etree.ElementTree as Et
 from django.contrib import messages
 
 # Create your views here.
+
 def index(request):
     products = Product.objects.all()
     allProds = []
@@ -37,11 +38,11 @@ def searchMatch(query,item):
     # return true only if query matches the items
     # if query in item.desc.lower() or query in item.product_name.lower() or query in item.categoty.lower():
     #     pass
-    if query in item.product_name.lower():
+    if query.lower() in item.product_name.lower():
         return True
-    elif query in item.desc.lower():
+    elif query.lower() in item.desc.lower():
         return True
-    elif query in item.categoty.lower():
+    elif query.lower() in item.categoty.lower():
         return True
     else:
         return False
@@ -65,6 +66,7 @@ def search(request):
         if len(allProds) == 0 or len(query)<4:
             message = "Please make sure to enter relevant search query"
             params = {'message':message}
+            print('Invalid Request Search')
 
     
     return render(request,'shop/search.html',params)
